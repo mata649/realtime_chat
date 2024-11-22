@@ -19,8 +19,6 @@ defmodule RealtimeChatWeb.Router do
 
   scope "/", RealtimeChatWeb do
     pipe_through :browser
-
-    get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.
@@ -49,6 +47,7 @@ defmodule RealtimeChatWeb.Router do
 
   scope "/", RealtimeChatWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
+    get "/", PageController, :home
 
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{RealtimeChatWeb.UserAuth, :redirect_if_user_is_authenticated}] do
@@ -68,6 +67,7 @@ defmodule RealtimeChatWeb.Router do
       on_mount: [{RealtimeChatWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+      live "/chat", ChatLobby
     end
   end
 
