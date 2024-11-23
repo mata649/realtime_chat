@@ -19,7 +19,7 @@ defmodule RealtimeChat.MixProject do
   def application do
     [
       mod: {RealtimeChat.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :wx, :observer]
     ]
   end
 
@@ -59,7 +59,9 @@ defmodule RealtimeChat.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:uuid, "~> 1.1"},
+      {:timex, "~> 3.7.11"}
     ]
   end
 
