@@ -8,11 +8,11 @@ defmodule RealtimeChat.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      RealtimeChat.Chats.Cache,
       RealtimeChatWeb.Telemetry,
       RealtimeChat.Repo,
       {Ecto.Migrator,
-        repos: Application.fetch_env!(:realtime_chat, :ecto_repos),
-        skip: skip_migrations?()},
+       repos: Application.fetch_env!(:realtime_chat, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:realtime_chat, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: RealtimeChat.PubSub},
       # Start the Finch HTTP client for sending emails
