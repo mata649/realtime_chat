@@ -1,1 +1,64 @@
-<p>lobby</p>
+<div class="grid grid-cols-12 pb-4 mt-10 rounded-lg bg-gruvboxDark-bg2 ">
+  <%!-- Chats --%>
+  <div class="col-span-4 bg-gruvboxDark-bg1" id="users" phx-update="stream">
+    <div
+      :for={{user_id, user} <- @streams.users}
+      id={user_id}
+      class="grid grid-cols-3 px-1 transition duration-500 ease-out border-b cursor-pointer text-gruvboxDark-fg0 border-gruvboxDark-fg1 hover:bg-gruvboxDark-bg4 "
+      phx-click="select_chat"
+      phx-value-selected_id={user.id}
+    >
+      <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center w-20 h-20 my-1 text-5xl rounded-full bg-gruvboxDark-blue2">
+          <%= String.at(user.email, 0) %>
+        </div>
+      </div>
+      <div class="flex items-center justify-center col-span-2"><%= user.email %></div>
+    </div>
+  </div>
+  <%!-- Message board --%>
+  <div class="grid col-start-5 grid-rows-6 col-span-full">
+    <%= if @selected_chat != nil do %>
+      <div
+        class="flex flex-col max-h-screen row-span-5 overflow-auto"
+        id="messages"
+        phx-update="stream"
+      >
+        <div :for={{message_id, message} <- @streams.messages} id={message_id}>
+          <%= if message.from == @current_user.id do %>
+            <ChatComponents.my_message text={message.text} send_at={message.send_at} />
+          <% else %>
+            <ChatComponents.others_message text={message.text} send_at={message.send_at} />
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="flex items-center justify-center row-span-full">
+        <h1 class="text-2xl text-gruvboxDark-orange2">Select a chat and send a message :)</h1>
+      </div>
+    <% end %>
+
+    <div>
+      <%= if @selected_chat do %>
+        <.simple_form for={@message_form} phx-submit="send_message" phx-value-to={@selected_chat}>
+          <div class="grid grid-cols-6 bg-gruvboxDark-bg2">
+            <div class="col-span-5">
+              <.input
+                type="textarea"
+                name="text"
+                field={@message_form[:text]}
+                value=""
+                placeholder="Start typing..."
+              />
+            </div>
+            <div class="flex items-center justify-center">
+              <button class="px-2 py-1 transition duration-200 rounded-lg bg-gruvboxDark-green hover:scale-105">
+                Send
+              </button>
+            </div>
+          </div>
+        </.simple_form>
+      <% end %>
+    </div>
+  </div>
+</div>
