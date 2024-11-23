@@ -7,7 +7,6 @@ defmodule RealtimeChatWeb.ChatLobby do
 
   def mount(_params, _session, socket) do
     current_user = socket.assigns.current_user
-    IO.puts("ON MOUNTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
 
     users = Accounts.get_users_except_for(current_user.id)
     RealtimeChatWeb.Endpoint.subscribe("user:#{current_user.id}")
@@ -57,7 +56,6 @@ defmodule RealtimeChatWeb.ChatLobby do
   def handle_info(%{event: "new_message", payload: message}, socket) do
     current_user = socket.assigns.current_user
     Chats.store_message_received(current_user.id, message)
-    IO.inspect(message)
     socket = socket |> stream_insert(:messages, message)
     {:noreply, socket}
   end

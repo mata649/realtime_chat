@@ -37,7 +37,6 @@ defmodule RealtimeChat.Chats.Server do
 
   @impl true
   def handle_cast({:store_message_send, %{to: to} = message}, history) do
-    IO.inspect(message.to)
     messages = history |> Map.get(to, [])
     new_history = history |> Map.put(to, [message | messages])
     {:noreply, new_history}
