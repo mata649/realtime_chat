@@ -27,6 +27,22 @@ defmodule RealtimeChat.Accounts do
   end
 
   @doc """
+  Gets all users except for the user with the given ID.
+
+  ## Examples
+
+      iex> get_users_except_for(1)
+      [%User{}, %User{}, ...]
+
+      iex> get_users_except_for(999)
+      []
+
+  """
+  def get_users_except_for(id) do
+    from(u in User, where: u.id != ^id) |> Repo.all()
+  end
+
+  @doc """
   Gets a user by email and password.
 
   ## Examples
