@@ -1,5 +1,16 @@
 # RealtimeChat
 
+**RealtimeChat** is a simple, real-time chat app built with [Phoenix](https://www.phoenixframework.org/). It uses Phoenix's Pub/Sub for instant messaging and in-memory processes for chat management.  
+
+## Features  
+
+- **Real-Time Messaging**: Messages are broadcast instantly using Phoenix Pub/Sub.  
+- **In-Memory Chat Storage**: Chats are handled in memory with `GenServer` processes.  
+- **Dynamic Supervision**: Chat processes are created and managed dynamically with `DynamicSupervisor`.  
+- **Global Registry**: Keeps track of all active chat rooms.  
+
+![Example Image](priv/static/images/example.png)
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
